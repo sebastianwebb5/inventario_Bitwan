@@ -468,6 +468,9 @@ def descargar_pdf(acta_id):
     nombre_archivo = f"Acta_{acta['nombre'].replace(' ','_')}_{acta_id}.pdf"
     return send_file(buf, as_attachment=True, download_name=nombre_archivo, mimetype='application/pdf')
 
+import os
+
 if __name__ == '__main__':
     init_db()
-    app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
