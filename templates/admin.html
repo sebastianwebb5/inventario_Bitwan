@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Admin - Bitwan</title>
+    <link rel="shortcut icon" type="image/png" href="/static/logo.png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bodega.css') }}">
+    <style>
+        .grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-top:24px}
+        .card-link{background:white;border-radius:16px;padding:22px;text-align:center;box-shadow:0 2px 12px rgba(77,108,231,.08);text-decoration:none;color:var(--texto);transition:all .2s;display:block;cursor:pointer;border:1.5px solid var(--gris-borde)}
+        .card-link:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(77,108,231,.18)}
+        .card-link .ico{font-size:36px;margin-bottom:10px}
+        .card-link h3{font-size:14px;font-weight:700}
+        .card-link p{font-size:11px;color:var(--muted);margin-top:3px}
+        /* inventario inline */
+        #inv-section{display:none;margin-top:24px}
+        .inv-table table{width:100%;border-collapse:collapse}
+        .inv-table th{background:var(--azul-bg);color:var(--azul);font-size:11px;padding:9px 14px;text-align:left;text-transform:uppercase;letter-spacing:.5px}
+        .inv-table td{padding:11px 14px;border-bottom:1px solid var(--gris-borde);font-size:14px}
+        /* usuarios */
+        #usr-section{display:none;margin-top:24px}
+        .tag-f{background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+        .tag-p{background:#fff3cd;color:#856404;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+        .chip{display:inline-block;background:var(--azul-bg);color:var(--azul);border-radius:20px;padding:2px 9px;font-size:11px;font-weight:600;margin:2px}
+        .btn-del-u{background:#fee2e2;color:#991b1b;border:none;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:.2s}
+        .btn-del-u:hover{background:#991b1b;color:white}
+        .exp-ico{transition:.2s;display:inline-block}
+        .rot{transform:rotate(90deg)}
+        .exp-row{cursor:pointer}.exp-row:hover td{background:var(--azul-bg)}
+    </style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><span class="brand-icon">📦</span><div><div class="brand-name">BITWAN</div><div class="brand-sub">Sistema de inventario</div></div></div>
+    <div class="sidebar-user"><div class="user-avatar">{{ usuario[0].upper() }}</div><div class="user-info"><div class="user-name">{{ usuario }}</div><div class="user-role">Administrador</div></div></div>
+    <nav class="sidebar-nav">
+      <a href="/admin"         class="nav-link active">🏠 Inicio</a>
+      <a href="/bodega"        class="nav-link">📦 Bodega</a>
+      <a href="/actividades"   class="nav-link">⚡ Actividades</a>
+      <a href="/actas"         class="nav-link">📄 Actas</a>
+      <a href="/crear_usuario" class="nav-link">👤 Crear Usuario</a>
+    </nav>
+    <a href="/logout" class="btn-logout">↩️ Cerrar sesión</a>
+  </aside>
+  <main class="main">
+    <div class="page-header"><h1>👋 Bienvenido, {{ usuario }}</h1><p>Panel de administración — Sistema Bitwan</p></div>
+
+    <div class="grid-cards">
+      <a href="/bodega"        class="card-link"><div class="ico">📦</div><h3>Bodega</h3><p>Gestionar inventario</p></a>
+      <a href="/actividades"   class="card-link"><div class="ico">⚡</div><h3>Nueva Actividad</h3><p>Asignar tareas</p></a>
+      <a href="/actas"         class="card-link"><div class="ico">📄</div><h3>Actas</h3><p>Ver y descargar PDF</p></a>
+      <a href="/crear_usuario" class="card-link"><div class="ico">➕</div><h3>Crear Usuario</h3><p>Añadir usuario</p></a>
+      <div class="card-link" onclick="toggle('inv-section',this,'inv-loaded')"><div class="ico">📋</div><h3>Inventario</h3><p>Ver stock actual</p></div>
+      <div class="card-link" onclick="toggle('usr-section',this,'usr-loaded',loadUsers)"><div class="ico">👥</div><h3>Usuarios</h3><p>Ver y eliminar</p></div>
+    </div>
+
+    <!-- INVENTARIO -->
+    <div id="inv-section" class="card">
+      <h2 class="card-title">📋 Inventario actual</h2>
+      <div class="inv-table">
+        <table><thead><tr><th>Material</th><th>Stock</th><th>Estado</th></tr></thead>
+        <tbody>
+        {% for m in materiales %}
+        <tr>
+          <td><strong>{{ m.nombre }}</strong></td>
+          <td>{{ m.cantidad }}</td>
+          <td>
+            {% if m.cantidad == 0 %}<span class="tag tag-red">Sin stock</span>
+            {% elif m.cantidad < 5 %}<span class="tag tag-yellow">Stock bajo</span>
+            {% else %}<span class="tag tag-green">Disponible</span>{% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+        </tbody></table>
+      </div>
+    </div>
+
+    <!-- USUARIOS -->
+    <div id="usr-section" class="card">
+      <h2 class="card-title">👥 Usuarios registrados</h2>
+      <div class="inv-table">
+        <table><thead><tr><th>#</th><th>Usuario</th><th>Rol</th><th>Actividades</th><th>Eliminar</th></tr></thead>
+        <tbody id="usr-tbody"><tr><td colspan="5" style="text-align:center;padding:20px;color:#aaa">Cargando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+let loaded={};
+function toggle(id,el,key,cb){
+  const s=document.getElementById(id);
+  const open=s.style.display==='block';
+  s.style.display=open?'none':'block';
+  if(!open&&!loaded[key]){loaded[key]=true;if(cb)cb();}
+}
+async function loadUsers(){
+  const res=await fetch('/api/usuarios');
+  const us=await res.json();
+  const tb=document.getElementById('usr-tbody');
+  if(!us.length){tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px">Sin usuarios</td></tr>';return;}
+  tb.innerHTML=us.map(u=>`
+    <tr class="exp-row" onclick="toggleDet(${u.id},event)">
+      <td>${u.id}</td><td>👤 ${u.usuario}</td>
+      <td><span class="tag-f">${u.rol}</span></td>
+      <td><span class="exp-ico" id="ei-${u.id}">▶</span> Ver actividades</td>
+      <td onclick="event.stopPropagation()"><button class="btn-del-u" onclick="delUser(${u.id},'${u.usuario}')">🗑️</button></td>
+    </tr>
+    <tr id="det-${u.id}" style="display:none">
+      <td colspan="5" style="padding:0"><div id="cnt-${u.id}" style="padding:16px;background:#f9fbff">Cargando...</div></td>
+    </tr>`).join('');
+}
+async function toggleDet(uid,e){
+  const row=document.getElementById(`det-${uid}`);
+  const ico=document.getElementById(`ei-${uid}`);
+  if(row.style.display==='none'){
+    row.style.display='';ico.classList.add('rot');
+    const res=await fetch(`/api/usuario/${uid}/actividades`);
+    const acts=await res.json();
+    const cnt=document.getElementById(`cnt-${uid}`);
+    if(!acts.length){cnt.innerHTML='<p style="color:#aaa;font-size:13px">Sin actividades</p>';return;}
+    cnt.innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr style="background:var(--azul-bg)"><th style="padding:7px">Actividad</th><th style="padding:7px">Materiales</th><th style="padding:7px">Estado</th><th style="padding:7px">Fecha</th></tr></thead>
+      <tbody>${acts.map(a=>`<tr style="border-bottom:1px solid #e1e8ef">
+        <td style="padding:7px">${a.nombre}</td>
+        <td style="padding:7px">${a.materiales.length?a.materiales.map(m=>`<span class="chip">📦${m.nombre}(${m.cantidad})</span>`).join(''):'—'}</td>
+        <td style="padding:7px"><span class="${a.estado==='firmado'?'tag-f':'tag-p'}">${a.estado}</span></td>
+        <td style="padding:7px">${a.fecha_creacion}</td>
+      </tr>`).join('')}</tbody></table>`;
+  }else{row.style.display='none';ico.classList.remove('rot');}
+}
+async function delUser(uid,nombre){
+  if(!confirm(`¿Eliminar usuario "${nombre}"?`))return;
+  const r=await fetch(`/eliminar_usuario/${uid}`,{method:'POST'});
+  const d=await r.json();
+  if(d.ok){loaded['usr-loaded']=false;loadUsers();}
+}
+</script>
+</body></html>

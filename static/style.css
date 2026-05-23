@@ -1,0 +1,89 @@
+/* FUENTE DE GOOGLE */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* RESET - quita márgenes de todo */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* COLORES */
+:root {
+    --azul-marca:  #4d6ce7;
+    --azul-oscuro: #2763d1;
+    --blanco-puro: #ffffff;
+    --gris-claro:  #f4f6fb;
+    --gris-borde:  #e1e8ef;
+    --texto:       #1a1f36;
+}
+
+/* BODY - fondo azul degradado, centra el login */
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: linear-gradient(135deg, #5b7cfa, #8fb0ff);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* LOGIN CARD - caja blanca del formulario */
+.login-card {
+    background: white;
+    width: 100%; max-width: 400px;
+    padding: 44px 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+/* LOGO - emoji grande arriba del formulario */
+.login-logo { font-size: 48px; margin-bottom: 12px; }
+
+/* TÍTULOS */
+h2 { font-size: 22px; font-weight: 700; color: var(--texto); margin-bottom: 6px; }
+p  { color: #6b7280; font-size: 14px; margin-bottom: 28px; }
+
+/* ERROR - mensaje rojo cuando el login falla */
+.login-error {
+    background: rgba(224,82,82,.1);
+    border: 1px solid rgba(224,82,82,.3);
+    color: #e05252; border-radius: 10px;
+    padding: 10px 14px; font-size: 13px;
+    margin-bottom: 16px; text-align: left;
+}
+
+/* FORMULARIO */
+form { text-align: left; }
+
+/* CAMPOS - label arriba, input abajo */
+.input-field { margin-bottom: 18px; }
+.input-field label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: #6b7280; text-transform: uppercase;
+    letter-spacing: .5px; margin-bottom: 8px;
+}
+.input-field input {
+    width: 100%; padding: 13px 16px;
+    border: 2px solid var(--gris-borde); border-radius: 10px;
+    font-size: 15px; font-family: inherit; outline: none;
+    transition: border-color .2s; background: var(--gris-claro);
+}
+/* borde azul cuando el input está activo */
+.input-field input:focus { border-color: var(--azul-marca); background: white; }
+
+/* BOTÓN INGRESAR - azul, ocupa todo el ancho */
+.btn-primary {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--azul-marca), var(--azul-oscuro));
+    color: white; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    margin-top: 8px; transition: all .2s;
+}
+/* sube levemente al pasar el mouse */
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(77,108,231,0.4); }
+/* se achica al hacer click */
+.btn-primary:active { transform: scale(0.98); }
+
+/* RESPONSIVE - ajuste para celular */
+@media (max-width: 480px) {
+    .login-card { padding: 30px 24px; }
+}

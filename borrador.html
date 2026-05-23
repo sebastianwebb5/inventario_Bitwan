@@ -1,0 +1,1228 @@
+############## CSS ##############
+###### ACTIVIDADES ######
+##body{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+
+   background: linear-gradient(135deg, #5b7cfa, #8fb0ff);
+ 
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+.panel{
+    background: white;
+
+    width: 100%;
+    max-width: 700px;
+
+    padding: 40px;
+
+    border-radius: 30px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label{
+    font-weight: bold;
+}
+
+input,
+textarea,
+select{
+    padding: 14px;
+
+    border-radius: 12px;
+
+    border: 1px solid #ccc;
+
+    font-size: 16px;
+}
+
+textarea{
+    resize: none;
+}
+
+button{
+    background: #5670f0;
+
+    color: white;
+
+    border: none;
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+button:hover{
+    transform: scale(1.02);
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 768px){
+
+    .panel{
+        padding: 25px;
+    }
+
+    h1{
+        font-size: 28px;
+    }
+
+}
+
+
+######## ADMIN.CSS#######
+
+body{
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg, #5f90ec, #c1d1f1);
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* PANEL PRINCIPAL */
+.panel{
+    background: white;
+    width: 650px;
+    max-width: 100%;
+
+    padding: 35px;
+    border-radius: 20px;
+
+    box-shadow: 0px 15px 40px rgba(0,0,0,0.4);
+
+    text-align: center;
+    transition: 0.3s;
+}
+
+/* EFECTO SUAVE */
+.panel:hover{
+    transform: scale(1.01);
+}
+
+/* FOTO ADMIN */
+.foto{
+    width: 110px;
+    height: 110px;
+
+    border-radius: 50%;
+    object-fit: cover;
+
+    border: 4px solid #4d6ce7;
+
+    margin-bottom: 10px;
+}
+
+/* TITULO */
+h1{
+    margin: 5px 0;
+    font-size: 24px;
+}
+
+/* SUBTITULO */
+p{
+    margin: 0;
+    color: gray;
+}
+
+/* MENU */
+nav{
+    margin-top: 25px;
+
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    flex-wrap: wrap;
+}
+
+/* BOTONES */
+button{
+    padding: 10px 16px;
+
+    border: none;
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    background: #4d6ce7;
+    color: white;
+
+    transition: 0.3s;
+}
+
+button:hover{
+    background: #2763d1;
+    transform: translateY(-2px);
+}
+
+/* CONTENIDO */
+#contenido{
+    margin-top: 25px;
+
+    padding: 20px;
+
+    background: #f5f5f5;
+
+    border-radius: 12px;
+
+    min-height: 80px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px){
+
+    body{
+        align-items: flex-start;
+    }
+
+    .panel{
+        width: 100%;
+        padding: 20px;
+    }
+
+    nav{
+        flex-direction: column;
+    }
+
+    button{
+        width: 100%;
+    }
+
+    h1{
+        font-size: 20px;
+    }
+}
+####BODEGA.CSS###
+
+
+/* FUENTE DE GOOGLE */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* RESET - quita márgenes de todo */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* COLORES - se usan en todo el archivo */
+:root {
+    --azul:      #4d6ce7;
+    --azul-dark: #2763d1;
+    --azul-bg:   #eef2ff;
+    --blanco:    #ffffff;
+    --gris-bg:   #f4f6fb;
+    --gris-borde:#e1e8ef;
+    --texto:     #1a1f36;
+    --muted:     #6b7280;
+    --danger:    #e05252;
+    --success:   #22c55e;
+    --warning:   #f59e0b;
+    --sidebar-w: 240px;
+}
+
+/* BODY - fondo gris de toda la página */
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--gris-bg);
+    color: var(--texto);
+    min-height: 100vh;
+}
+
+/* LAYOUT - divide pantalla en sidebar y contenido */
+.layout { display: flex; min-height: 100vh; }
+
+/* SIDEBAR - barra azul fija a la izquierda */
+.sidebar {
+    width: var(--sidebar-w);
+    background: linear-gradient(160deg, #3a56d4, #5b7cfa);
+    display: flex;
+    flex-direction: column;
+    padding: 28px 16px 20px;
+    position: fixed;
+    top: 0; bottom: 0; left: 0;
+    z-index: 10;
+}
+
+/* SIDEBAR BRAND - logo y nombre arriba */
+.sidebar-brand {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 28px; padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.brand-icon { font-size: 28px; }
+.brand-name { font-size: 18px; font-weight: 700; color: white; letter-spacing: 1px; }
+.brand-sub  { font-size: 10px; color: rgba(255,255,255,0.6); }
+
+/* SIDEBAR USER - nombre del admin logueado */
+.sidebar-user { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+.user-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(255,255,255,0.25); color: white;
+    font-weight: 700; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+}
+.user-name { color: white; font-weight: 600; font-size: 14px; }
+.user-role { color: rgba(255,255,255,0.6); font-size: 11px; }
+
+/* NAVEGACIÓN - links del menú */
+.sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.nav-link {
+    display: block; padding: 11px 14px; border-radius: 10px;
+    color: rgba(255,255,255,0.75); text-decoration: none;
+    font-size: 14px; font-weight: 500; transition: all .2s;
+}
+.nav-link:hover  { background: rgba(255,255,255,0.15); color: white; }
+.nav-link.active { background: rgba(255,255,255,0.25); color: white; font-weight: 600; }
+
+/* BOTÓN CERRAR SESIÓN - abajo del sidebar */
+.btn-logout {
+    display: block; padding: 11px 14px; border-radius: 10px;
+    color: rgba(255,255,255,0.6); text-decoration: none;
+    font-size: 13px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all .2s; margin-top: 8px;
+}
+.btn-logout:hover { background: rgba(255,255,255,0.1); color: white; }
+
+/* MAIN - contenido a la derecha del sidebar */
+.main { margin-left: var(--sidebar-w); flex: 1; padding: 36px 32px; }
+
+/* ENCABEZADO - título y subtítulo de la página */
+.page-header { margin-bottom: 28px; }
+.page-header h1 { font-size: 28px; font-weight: 700; }
+.page-header p  { color: var(--muted); margin-top: 4px; }
+
+/* CARD - caja blanca que contiene el formulario o tabla */
+.card {
+    background: var(--blanco);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(77,108,231,0.08);
+    margin-bottom: 24px;
+    border: 1px solid var(--gris-borde);
+}
+.card-title {
+    font-size: 17px; font-weight: 600; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+}
+
+/* BADGE - numerito que muestra cuántos materiales hay */
+.badge {
+    background: var(--azul-bg); color: var(--azul);
+    font-size: 12px; font-weight: 700;
+    padding: 2px 10px; border-radius: 20px;
+}
+
+/* FORMULARIO AGREGAR - fila con inputs y botón */
+.form-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+.field { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 180px; }
+.field-sm { max-width: 130px; } /* campo pequeño para cantidad */
+.field label {
+    font-size: 12px; font-weight: 600;
+    color: var(--muted); text-transform: uppercase; letter-spacing: .5px;
+}
+.field input {
+    padding: 12px 14px;
+    border: 2px solid var(--gris-borde);
+    border-radius: 10px; font-size: 14px;
+    font-family: inherit; outline: none;
+    transition: border-color .2s; background: var(--gris-bg);
+}
+.field input:focus { border-color: var(--azul); background: white; }
+
+/* BOTÓN AGREGAR - azul degradado */
+.btn-add {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--azul), var(--azul-dark));
+    color: white; border: none; border-radius: 10px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: all .2s; white-space: nowrap; height: 46px;
+}
+.btn-add:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(77,108,231,0.4); }
+
+/* TABLA - lista de materiales */
+.table-wrap { overflow-x: auto; } /* scroll en pantallas pequeñas */
+table { width: 100%; border-collapse: collapse; }
+thead tr { background: var(--gris-bg); }
+th {
+    padding: 12px 16px; text-align: left;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .8px; text-transform: uppercase; color: var(--muted);
+}
+td { padding: 14px 16px; border-bottom: 1px solid var(--gris-borde); font-size: 14px; vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--azul-bg); } /* fila se ilumina al pasar el mouse */
+
+/* COLUMNAS ESPECIALES */
+.td-id     { color: var(--muted); font-size: 13px; width: 40px; } /* columna ID */
+.td-nombre { font-weight: 600; }                                   /* columna nombre */
+.td-cant   { width: 160px; }                                       /* columna cantidad */
+
+/* EDITAR CANTIDAD - input + botón guardar en la tabla */
+.form-inline { display: flex; align-items: center; gap: 6px; }
+.input-cant {
+    width: 80px; padding: 7px 10px;
+    border: 2px solid var(--gris-borde); border-radius: 8px;
+    font-size: 14px; font-family: inherit; outline: none;
+}
+.input-cant:focus { border-color: var(--azul); }
+
+/* BOTÓN GUARDAR ✓ - verde, confirma la edición */
+.btn-save {
+    width: 32px; height: 32px; background: var(--success);
+    color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.btn-save:hover { opacity: .85; }
+
+/* BOTÓN ELIMINAR 🗑️ - rojo, borra el material */
+.btn-del {
+    width: 32px; height: 32px;
+    background: rgba(224,82,82,.12); color: var(--danger);
+    border: none; border-radius: 8px; cursor: pointer; font-size: 14px;
+}
+.btn-del:hover { background: var(--danger); color: white; }
+
+/* TAGS DE ESTADO - indican si hay stock */
+.tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.tag-green  { background: rgba(34,197,94,.12);  color: #16a34a; } /* Disponible */
+.tag-yellow { background: rgba(245,158,11,.12); color: #b45309; } /* Stock bajo */
+.tag-red    { background: rgba(224,82,82,.12);  color: var(--danger); } /* Sin stock */
+
+/* MENSAJE VACÍO - cuando no hay materiales */
+.empty { text-align: center; padding: 40px; color: var(--muted); font-size: 15px; }
+
+/* RESPONSIVE - para celular */
+@media (max-width: 768px) {
+    .sidebar { width: 100%; height: auto; position: relative; }
+    .main { margin-left: 0; padding: 20px; }
+    .form-row { flex-direction: column; }
+    .field-sm { max-width: 100%; }
+}
+
+
+####STYLE###
+/* FUENTE DE GOOGLE */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* RESET - quita márgenes de todo */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* COLORES */
+:root {
+    --azul-marca:  #4d6ce7;
+    --azul-oscuro: #2763d1;
+    --blanco-puro: #ffffff;
+    --gris-claro:  #f4f6fb;
+    --gris-borde:  #e1e8ef;
+    --texto:       #1a1f36;
+}
+
+/* BODY - fondo azul degradado, centra el login */
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: linear-gradient(135deg, #5b7cfa, #8fb0ff);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* LOGIN CARD - caja blanca del formulario */
+.login-card {
+    background: white;
+    width: 100%; max-width: 400px;
+    padding: 44px 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+/* LOGO - emoji grande arriba del formulario */
+.login-logo { font-size: 48px; margin-bottom: 12px; }
+
+/* TÍTULOS */
+h2 { font-size: 22px; font-weight: 700; color: var(--texto); margin-bottom: 6px; }
+p  { color: #6b7280; font-size: 14px; margin-bottom: 28px; }
+
+/* ERROR - mensaje rojo cuando el login falla */
+.login-error {
+    background: rgba(224,82,82,.1);
+    border: 1px solid rgba(224,82,82,.3);
+    color: #e05252; border-radius: 10px;
+    padding: 10px 14px; font-size: 13px;
+    margin-bottom: 16px; text-align: left;
+}
+
+/* FORMULARIO */
+form { text-align: left; }
+
+/* CAMPOS - label arriba, input abajo */
+.input-field { margin-bottom: 18px; }
+.input-field label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: #6b7280; text-transform: uppercase;
+    letter-spacing: .5px; margin-bottom: 8px;
+}
+.input-field input {
+    width: 100%; padding: 13px 16px;
+    border: 2px solid var(--gris-borde); border-radius: 10px;
+    font-size: 15px; font-family: inherit; outline: none;
+    transition: border-color .2s; background: var(--gris-claro);
+}
+/* borde azul cuando el input está activo */
+.input-field input:focus { border-color: var(--azul-marca); background: white; }
+
+/* BOTÓN INGRESAR - azul, ocupa todo el ancho */
+.btn-primary {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--azul-marca), var(--azul-oscuro));
+    color: white; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 600; cursor: pointer;
+    margin-top: 8px; transition: all .2s;
+}
+/* sube levemente al pasar el mouse */
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(77,108,231,0.4); }
+/* se achica al hacer click */
+.btn-primary:active { transform: scale(0.98); }
+
+/* RESPONSIVE - ajuste para celular */
+@media (max-width: 480px) {
+    .login-card { padding: 30px 24px; }
+}
+
+
+
+
+#######################################  HTML   #######################################
+
+######  ACTIVIDADES.HTML ##############
+
+#<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Actividades</title>
+
+   <link rel="stylesheet"
+href="{{ url_for('static', filename='actividades.css') }}">
+
+</head>
+<body>
+
+<div class="panel">
+
+    <h1>Nueva Actividad</h1>
+
+    <form>
+
+        <label>Nombre actividad</label>
+        <input type="text">
+
+        <label>Descripción</label>
+        <textarea rows="5"></textarea>
+
+        <label>Material asignado</label>
+
+        <select>
+
+            {% for material in materiales %}
+
+            <option>{{ material }}</option>
+
+            {% endfor %}
+
+        </select>
+
+        <label>Cantidad</label>
+        <input type="number">
+
+        <button type="submit">
+            Guardar actividad
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
+
+
+##################     ADMIN.HTML   ##################
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Bitwan</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+
+<body>
+
+<div class="panel">
+
+    <img class="foto" src="https://i.pravatar.cc/150?img=12">
+
+    <h1>Admin Bitwan</h1>
+
+    <p>Sistema de inventario</p>
+
+    <nav>
+        <button onclick="mostrar('actas')">Actas</button>
+        <button onclick="window.location.href='/bodega'"> Bodega</button>
+        <button onclick="window.location.href='/actividades'"> Actividades</button>
+    </nav>
+
+    <div id="contenido">
+        <h2>Bienvenido</h2>
+    </div>
+
+</div>
+
+<!-- 🔥 SCRIPT AL FINAL (IMPORTANTE) -->
+<script>
+
+function mostrar(seccion){
+
+    let contenido = document.getElementById("contenido");
+
+    if(seccion === "actas"){
+        contenido.innerHTML = "<h2>📄 Actas</h2><p>Lista de actas.</p>";
+    }
+
+    if(seccion === "bodega"){
+        contenido.innerHTML = "<h2>📦 Bodega</h2><p>Inventario.</p>";
+    }
+
+    if(seccion === "actividades"){
+        contenido.innerHTML = "<h2>🧑‍🔧 Actividades</h2><p>Asignaciones.</p>";
+    }
+}
+
+</script>
+
+</body>
+</html>
+
+
+
+############     BODEGA   ##################
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bodega - Bitwan</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bodega.css') }}">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-icon">📦</span>
+            <div>
+                <div class="brand-name">BITWAN</div>
+                <div class="brand-sub">Sistema de inventario</div>
+            </div>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-avatar">{{ usuario[0].upper() }}</div>
+            <div class="user-info">
+                <div class="user-name">{{ usuario }}</div>
+                <div class="user-role">Administrador</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/admin" class="nav-link">🏠 Inicio</a>
+            <a href="/bodega" class="nav-link active">📦 Bodega</a>
+            <a href="/actividades" class="nav-link">⚡ Actividades</a>
+            <a href="/admin" class="nav-link">📄 Actas</a>
+        </nav>
+
+        <a href="/logout" class="btn-logout">↩️ Cerrar sesión</a>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main">
+
+        <div class="page-header">
+            <h1>📦 Bodega</h1>
+            <p>Gestiona el inventario de materiales</p>
+        </div>
+
+        <!-- FORMULARIO AGREGAR -->
+        <div class="card">
+            <h2 class="card-title">➕ Agregar Material</h2>
+            <form method="POST" class="form-agregar">
+                <input type="hidden" name="accion" value="agregar">
+                <div class="form-row">
+                    <div class="field">
+                        <label>Nombre del material</label>
+                        <input type="text" name="nombre" placeholder="Ej: Cable UTP Cat6" required>
+                    </div>
+                    <div class="field field-sm">
+                        <label>Cantidad</label>
+                        <input type="number" name="cantidad" placeholder="0" min="1" required>
+                    </div>
+                    <button type="submit" class="btn-add">Agregar</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- TABLA MATERIALES -->
+        <div class="card">
+            <h2 class="card-title">📋 Materiales registrados
+                <span class="badge">{{ materiales|length }}</span>
+            </h2>
+
+            {% if materiales %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Material</th>
+                            <th>Cantidad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for m in materiales %}
+                        <tr>
+                            <td class="td-id">{{ m[0] }}</td>
+                            <td class="td-nombre">{{ m[1] }}</td>
+                            <td class="td-cant">
+                                <!-- Editar cantidad inline -->
+                                <form method="POST" class="form-inline">
+                                    <input type="hidden" name="accion" value="editar">
+                                    <input type="hidden" name="id" value="{{ m[0] }}">
+                                    <input type="number" name="cantidad" value="{{ m[2] }}" min="0" class="input-cant">
+                                    <button type="submit" class="btn-save" title="Guardar">✓</button>
+                                </form>
+                            </td>
+                            <td>
+                                {% if m[2] == 0 %}
+                                    <span class="tag tag-red">Sin stock</span>
+                                {% elif m[2] < 5 %}
+                                    <span class="tag tag-yellow">Stock bajo</span>
+                                {% else %}
+                                    <span class="tag tag-green">Disponible</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form method="POST" class="form-inline"
+                                      onsubmit="return confirm('¿Eliminar {{ m[1] }}?')">
+                                    <input type="hidden" name="accion" value="eliminar">
+                                    <input type="hidden" name="id" value="{{ m[0] }}">
+                                    <button type="submit" class="btn-del" title="Eliminar">🗑️</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty">
+                <p>No hay materiales registrados aún.</p>
+            </div>
+            {% endif %}
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>
+
+
+
+
+#######################  INDEX  ###################3
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario Bitwan</title>
+</head>
+<body>
+
+    <h1>Bienvenido al Sistema Inventario Bitwan 🚀</h1>
+
+    <p>Mi primer sistema web con Flask.</p>
+
+</body>
+</html>
+
+
+
+#####################  LOGIN.HTML   #####################
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login Bitwan</title>
+
+    <!-- CONECTAR CSS -->
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="login-card">
+
+        <h2>Inventario Bitwan</h2>
+
+        <p>Ingresa tus datos para continuar</p>
+
+        <form action="/login" method="POST">
+
+            <div class="input-field">
+
+                <label>Usuario</label>
+
+                <input type="text"
+                name="usuario"
+                placeholder="Ingrese usuario">
+
+            </div>
+
+            <div class="input-field">
+
+                <label>Contraseña</label>
+
+                <input type="password"
+                name="password"
+                placeholder="Ingrese contraseña">
+
+            </div>
+
+            <button class="btn-primary" type="submit">
+                Ingresar
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
+
+############################ PANEL USUARIO #####################
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Usuario - Bitwan</title>
+    <!-- Usamos el mismo bodega.css para mantener el estilo -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bodega.css') }}">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-icon">📦</span>
+            <div>
+                <div class="brand-name">BITWAN</div>
+                <div class="brand-sub">Sistema de inventario</div>
+            </div>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-avatar">{{ usuario[0].upper() }}</div>
+            <div class="user-info">
+                <div class="user-name">{{ usuario }}</div>
+                <div class="user-role">Usuario</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/panel" class="nav-link active">📦 Bodega</a>
+            <a href="/panel" class="nav-link">⚡ Actividades</a>
+            <a href="/panel" class="nav-link">📄 Mis Actas</a>
+        </nav>
+
+        <a href="/logout" class="btn-logout">↩️ Cerrar sesión</a>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main">
+
+        <div class="page-header">
+            <h1>👋 Bienvenido, {{ usuario }}</h1>
+            <p>Aquí puedes ver el inventario disponible</p>
+        </div>
+
+        <!-- TABLA DE MATERIALES (solo lectura) -->
+        <div class="card">
+            <h2 class="card-title">📋 Materiales disponibles
+                <span class="badge">{{ materiales|length }}</span>
+            </h2>
+
+            {% if materiales %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Material</th>
+                            <th>Cantidad</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for m in materiales %}
+                        <tr>
+                            <td class="td-id">{{ m[0] }}</td>
+                            <td class="td-nombre">{{ m[1] }}</td>
+                            <td>{{ m[2] }}</td>
+                            <td>
+                                {% if m[2] == 0 %}
+                                    <span class="tag tag-red">Sin stock</span>
+                                {% elif m[2] < 5 %}
+                                    <span class="tag tag-yellow">Stock bajo</span>
+                                {% else %}
+                                    <span class="tag tag-green">Disponible</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty">
+                <p>No hay materiales registrados aún.</p>
+            </div>
+            {% endif %}
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>
+
+
+
+############################## APP.PY  #######################
+
+from flask import Flask, render_template, request, redirect, url_for, session
+import sqlite3
+
+app = Flask(__name__)
+app.secret_key = "bitwan_secret_2024"
+
+DB = "bitwan.db"
+
+# =========================
+# BASE DE DATOS
+# =========================
+def init_db():
+    conexion = sqlite3.connect(DB)
+    cursor = conexion.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS usuarios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        usuario TEXT NOT NULL,
+        password TEXT NOT NULL,
+        rol TEXT NOT NULL
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS materiales (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre TEXT NOT NULL,
+        cantidad INTEGER NOT NULL
+    )
+    """)
+
+    # Insertar usuarios por defecto si no existen
+    cursor.execute("SELECT COUNT(*) FROM usuarios")
+    if cursor.fetchone()[0] == 0:
+        usuarios = [
+            ('sebastian', '1234', 'admin'),
+            ('juan',      '1111', 'usuario'),
+            ('carlos',    '2222', 'usuario'),
+            ('ana',       '3333', 'usuario'),
+            ('luis',      '4444', 'usuario'),
+        ]
+        cursor.executemany("INSERT INTO usuarios (usuario, password, rol) VALUES (?, ?, ?)", usuarios)
+
+    conexion.commit()
+    conexion.close()
+    print("✅ Base de datos lista")
+
+
+# -------------------------
+# LOGIN
+# -------------------------
+@app.route('/')
+def inicio():
+    return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    usuario  = request.form['usuario']
+    password = request.form['password']
+
+    conexion = sqlite3.connect(DB)
+    cursor   = conexion.cursor()
+    cursor.execute("SELECT * FROM usuarios WHERE usuario = ? AND password = ?", (usuario, password))
+    resultado = cursor.fetchone()
+    conexion.close()
+
+    if resultado:
+        session['usuario'] = resultado[1]
+        session['rol']     = resultado[3]
+        if resultado[3] == 'admin':
+            return redirect(url_for('admin'))
+        else:
+            return redirect(url_for('usuario_panel'))
+    else:
+        return render_template('login.html', error="Usuario o contraseña incorrectos ❌")
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('inicio'))
+
+
+# -------------------------
+# ADMIN
+# -------------------------
+@app.route("/admin")
+def admin():
+    if session.get('rol') != 'admin':
+        return redirect(url_for('inicio'))
+    return render_template("admin.html", usuario=session.get('usuario'))
+
+
+# -------------------------
+# BODEGA  (admin)
+# -------------------------
+@app.route("/bodega", methods=["GET", "POST"])
+def bodega():
+    if session.get('rol') != 'admin':
+        return redirect(url_for('inicio'))
+
+    conexion = sqlite3.connect(DB)
+    cursor   = conexion.cursor()
+
+    if request.method == "POST":
+        accion = request.form.get("accion")
+
+        if accion == "agregar":
+            nombre   = request.form["nombre"].strip()
+            cantidad = int(request.form["cantidad"])
+            if nombre and cantidad > 0:
+                cursor.execute("INSERT INTO materiales (nombre, cantidad) VALUES (?, ?)", (nombre, cantidad))
+
+        elif accion == "eliminar":
+            mat_id = request.form["id"]
+            cursor.execute("DELETE FROM materiales WHERE id = ?", (mat_id,))
+
+        elif accion == "editar":
+            mat_id   = request.form["id"]
+            cantidad = int(request.form["cantidad"])
+            cursor.execute("UPDATE materiales SET cantidad = ? WHERE id = ?", (cantidad, mat_id))
+
+        conexion.commit()
+
+    cursor.execute("SELECT * FROM materiales ORDER BY nombre")
+    materiales = cursor.fetchall()
+    conexion.close()
+
+    return render_template("bodega.html", materiales=materiales, usuario=session.get('usuario'))
+
+
+# -------------------------
+# ACTIVIDADES (admin)
+# -------------------------
+@app.route("/actividades")
+def actividades():
+    if session.get('rol') != 'admin':
+        return redirect(url_for('inicio'))
+    return render_template("actividades.html", usuario=session.get('usuario'))
+
+
+# -------------------------
+# PANEL USUARIO
+# -------------------------
+@app.route("/panel")
+def usuario_panel():
+    if not session.get('usuario'):
+        return redirect(url_for('inicio'))
+
+    conexion = sqlite3.connect(DB)
+    cursor   = conexion.cursor()
+    cursor.execute("SELECT * FROM materiales ORDER BY nombre")
+    materiales = cursor.fetchall()
+    conexion.close()
+
+    return render_template("panel_usuario.html", materiales=materiales, usuario=session.get('usuario'))
+
+
+# -------------------------
+# INICIO
+# -------------------------
+if __name__ == "__main__":
+    init_db()
+    app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)
+
+
+
+
+
+    ####################### DATABSE.PY   ############################
+
+    import sqlite3
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+# =========================
+# 🔧 CREAR BASE DE DATOS
+# =========================
+def init_db():
+    conexion = sqlite3.connect("bitwan.db")
+    cursor = conexion.cursor()
+
+    # TABLA USUARIOS
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS usuarios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        usuario TEXT NOT NULL,
+        password TEXT NOT NULL,
+        rol TEXT NOT NULL
+    )
+    """)
+
+    # TABLA MATERIALES
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS materiales (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre TEXT NOT NULL,
+        cantidad INTEGER NOT NULL
+    )
+    """)
+
+    conexion.commit()
+    conexion.close()
+    print("✅ Base de datos lista")
+
+# =========================
+# 🏠 RUTA BODEGA
+# =========================
+@app.route("/bodega")
+def bodega():
+    conexion = sqlite3.connect("bitwan.db")
+    cursor = conexion.cursor()
+
+    cursor.execute("SELECT * FROM materiales")
+    materiales = cursor.fetchall()
+
+    conexion.close()
+
+    return render_template("bodega.html", materiales=materiales)
+
+# =========================
+# 🚀 INICIAR APP
+# =========================
+if __name__ == "__main__":
+    init_db()  # 👈 CLAVE: crea tablas antes de arrancar Flask
+    app.run(debug=True)
+
+
+
+########################### INSERTAR USUARIOS .PY #######################################
+import sqlite3
+
+conexion = sqlite3.connect('bitwan.db')
+
+cursor = conexion.cursor()
+
+usuarios = [
+
+    ('sebastian', '1234', 'admin'),
+
+    ('juan', '1111', 'usuario'),
+
+    ('carlos', '2222', 'usuario') 
+
+]
+
+cursor.executemany('''
+INSERT INTO usuarios (usuario, password, rol)
+VALUES (?, ?, ?)
+''', usuarios)
+
+conexion.commit()
+
+print("Usuarios creados correctamente 🔥")
+
+conexion.close()
+
+
+
+
+

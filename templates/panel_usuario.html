@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Panel Usuario - Bitwan</title>
+  <link rel="shortcut icon" type="image/png" href="/static/logo.png">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bodega.css') }}">
+  <style>
+    .notif-banner{background:linear-gradient(135deg,#4d6ce7,#6d8bf5);border-radius:14px;padding:18px 22px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:transform .2s}
+    .notif-banner:hover{transform:translateY(-2px)}
+    .notif-count{background:#ff4d4d;color:white;border-radius:50%;width:28px;height:28px;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .notif-text{color:white;margin-left:14px}.notif-text h3{font-size:15px;font-weight:700;margin:0}.notif-text p{font-size:12px;opacity:.8;margin:2px 0 0}
+    .nleft{display:flex;align-items:center}
+    .notif-list{margin-bottom:22px;display:none}
+    .notif-item{background:white;border-radius:12px;padding:16px 20px;border:1.5px solid #e1e8ef;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:box-shadow .2s;text-decoration:none}
+    .notif-item:hover{box-shadow:0 4px 16px rgba(77,108,231,.14);border-color:var(--azul)}
+    .chip{display:inline-block;background:var(--azul-bg);color:var(--azul);border-radius:20px;padding:2px 9px;font-size:11px;font-weight:600;margin:2px}
+    .ndot{width:10px;height:10px;border-radius:50%;background:#ff4d4d;flex-shrink:0}
+    .tag-red{background:#fee2e2;color:#991b1b;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}
+    .tag-yellow{background:#fff3cd;color:#856404;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}
+    .tag-green{background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><span class="brand-icon">📦</span><div><div class="brand-name">BITWAN</div><div class="brand-sub">Sistema de inventario</div></div></div>
+    <div class="sidebar-user"><div class="user-avatar">{{ usuario[0].upper() }}</div><div class="user-info"><div class="user-name">{{ usuario }}</div><div class="user-role">Usuario</div></div></div>
+    <nav class="sidebar-nav">
+      <a href="/panel"               class="nav-link active">📦 Inventario</a>
+      <a href="/actividades_usuario" class="nav-link">⚡ Nueva Actividad</a>
+      <a href="/mis_actas"           class="nav-link">📄 Mis Actas</a>
+    </nav>
+    <a href="/logout" class="btn-logout">↩️ Cerrar sesión</a>
+  </aside>
+  <main class="main">
+    <div class="page-header"><h1>👋 Hola, {{ usuario }}</h1><p>Tu inventario y actividades</p></div>
+
+    {% if notificaciones %}
+    <div class="notif-banner" onclick="toggleNotifs()">
+      <div class="nleft">
+        <div class="notif-count">{{ notificaciones|length }}</div>
+        <div class="notif-text">
+          <h3>🔔 {{ notificaciones|length }} acta{% if notificaciones|length!=1 %}s{% endif %} pendiente{% if notificaciones|length!=1 %}s{% endif %} de firmar</h3>
+          <p>Toca para ver las actividades asignadas por el administrador</p>
+        </div>
+      </div>
+      <span style="color:rgba(255,255,255,.7);font-size:20px" id="narr">▾</span>
+    </div>
+    <div class="notif-list" id="nlist">
+      {% for n in notificaciones %}
+      <a href="/acta/{{ n.id }}" class="notif-item">
+        <div style="display:flex;align-items:center">
+          <span style="font-size:28px;margin-right:14px">📋</span>
+          <div>
+            <h4 style="font-size:14px;font-weight:700;margin:0 0 3px">{{ n.nombre }}</h4>
+            <p style="font-size:12px;color:var(--muted);margin:0">{{ n.descripcion[:80] }}{% if n.descripcion|length>80 %}...{% endif %}</p>
+            {% if n.materiales %}<div style="margin-top:5px">{% for m in n.materiales %}<span class="chip">📦{{ m.nombre }}({{ m.cantidad }})</span>{% endfor %}</div>{% endif %}
+            <p style="font-size:11px;color:#aaa;margin-top:4px">📅 {{ n.fecha_creacion }}</p>
+          </div>
+        </div>
+        <span class="ndot"></span>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Inventario asignado -->
+    <div class="card">
+      <h2 class="card-title">📋 Mi inventario asignado <span class="badge">{{ materiales|length }}</span></h2>
+      {% if materiales %}
+      <div class="table-wrap">
+        <table><thead><tr><th>Material</th><th>Cantidad asignada</th></tr></thead>
+        <tbody>
+        {% for m in materiales %}
+        <tr>
+          <td class="td-nombre">{{ m.nombre }}</td>
+          <td>{{ m.cantidad_asignada }}</td>
+        </tr>
+        {% endfor %}
+        </tbody></table>
+      </div>
+      {% else %}
+      <div class="empty"><p>Aún no tienes materiales asignados. Aparecerán cuando el administrador te asigne una actividad.</p></div>
+      {% endif %}
+    </div>
+  </main>
+</div>
+<script>
+function toggleNotifs(){
+  const l=document.getElementById('nlist'),a=document.getElementById('narr');
+  const v=l.style.display==='block';l.style.display=v?'none':'block';a.textContent=v?'▾':'▴';
+}
+{% if notificaciones %}toggleNotifs();{% endif %}
+</script>
+</body></html>

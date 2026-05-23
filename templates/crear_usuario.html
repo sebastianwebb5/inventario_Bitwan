@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crear Usuario</title>
+   <link rel="shortcut icon" type="image/png" href="/static/logo.png">
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='crear_usuario.css') }}">
+
+</head>
+
+<body>
+
+<div class="panel">
+
+    <h1>Crear Usuario</h1>
+    {% if mensaje %}
+ <div class="mensaje">
+    {{ mensaje }}
+</div>
+    {% endif %}
+
+    <form method="POST">
+
+        <input
+        type="text"
+        name="usuario"
+        placeholder="Usuario"
+        required>
+
+        <input
+        type="password"
+        name="password"
+        placeholder="Contraseña"
+        required>
+
+        <select name="rol">
+
+            <option value="usuario">
+                Usuario
+            </option>
+
+            <option value="admin">
+                Administrador
+            </option>
+
+        </select>
+
+        <button type="submit">
+            Guardar Usuario
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

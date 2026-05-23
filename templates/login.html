@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login Bitwan</title>
+    <link rel="shortcut icon" type="image/png" href="/static/logo.png">
+
+
+    <!-- CONECTAR CSS -->
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="login-card">
+
+        <h2>Inventario Bitwan</h2>
+
+        <p>Ingresa tus datos para continuar</p>
+
+        <form action="/login" method="POST">
+
+            <div class="input-field">
+
+                <label>Usuario</label>
+
+                <input type="text"
+                name="usuario"
+                placeholder="Ingrese usuario">
+
+            </div>
+
+            <div class="input-field">
+
+                <label>Contraseña</label>
+
+                <input type="password"
+                name="password"
+                placeholder="Ingrese contraseña">
+
+            </div>
+
+            <button class="btn-primary" type="submit">
+                Ingresar
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Actas - Bitwan</title>
+  <link rel="shortcut icon" type="image/png" href="/static/logo.png">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bodega.css') }}">
+  <style>
+    .acta-card{background:white;border-radius:14px;padding:20px 22px;border:1.5px solid var(--gris-borde);margin-bottom:14px;transition:box-shadow .2s}
+    .acta-card:hover{box-shadow:0 4px 18px rgba(77,108,231,.12)}
+    .arow{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .atitle{font-size:16px;font-weight:700}.asub{font-size:13px;color:var(--muted);margin-top:4px}
+    .tag-p{background:#fff3cd;color:#856404;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+    .tag-f{background:#d1fae5;color:#065f46;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+    .chip{display:inline-block;background:var(--azul-bg);color:var(--azul);border-radius:20px;padding:2px 9px;font-size:11px;font-weight:600;margin:2px}
+    .btn-ver{background:var(--azul-bg);color:var(--azul);border:none;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
+    .btn-ver:hover{background:var(--azul);color:white}
+    .btn-pdf{background:linear-gradient(135deg,#16a34a,#22c55e);color:white;border:none;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;text-decoration:none;display:inline-block}
+    .btn-pdf:hover{opacity:.88}
+    .ameta{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:var(--muted)}
+    .modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center}
+    .modal-ov.open{display:flex}
+    .modal{background:white;border-radius:20px;padding:30px;width:90%;max-width:540px;box-shadow:0 20px 60px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto}
+    .modal h2{font-size:19px;margin-bottom:14px}
+    .mf{margin-bottom:12px}.mf label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px}
+    .mf p{font-size:14px}
+    .close-m{float:right;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted)}
+    .firma-prev{max-width:100%;border:1px solid var(--gris-borde);border-radius:8px;margin-top:8px}
+    .empty-st{text-align:center;padding:60px 20px;color:var(--muted)}
+    .btns-acta{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><span class="brand-icon">📦</span><div><div class="brand-name">BITWAN</div><div class="brand-sub">Sistema de inventario</div></div></div>
+    <div class="sidebar-user"><div class="user-avatar">{{ usuario[0].upper() }}</div><div class="user-info"><div class="user-name">{{ usuario }}</div><div class="user-role">Administrador</div></div></div>
+    <nav class="sidebar-nav">
+      <a href="/admin"         class="nav-link">🏠 Inicio</a>
+      <a href="/bodega"        class="nav-link">📦 Bodega</a>
+      <a href="/actividades"   class="nav-link">⚡ Actividades</a>
+      <a href="/actas"         class="nav-link active">📄 Actas</a>
+      <a href="/crear_usuario" class="nav-link">👤 Crear Usuario</a>
+    </nav>
+    <a href="/logout" class="btn-logout">↩️ Cerrar sesión</a>
+  </aside>
+  <main class="main">
+    <div class="page-header"><h1>📄 Actas</h1><p>Registro de actividades — descarga PDF de las firmadas</p></div>
+    {% if not actas %}
+    <div class="empty-st">
+      <div style="font-size:56px;margin-bottom:12px">📋</div>
+      <h3>No hay actas todavía</h3>
+      <a href="/actividades" style="display:inline-block;margin-top:16px;background:var(--azul);color:white;padding:11px 24px;border-radius:10px;text-decoration:none;font-weight:600">+ Nueva actividad</a>
+    </div>
+    {% else %}
+    {% for acta in actas %}
+    <div class="acta-card">
+      <div class="arow">
+        <div>
+          <div class="atitle">{{ acta.nombre }}</div>
+          <div class="asub">👤 <strong>{{ acta.nombre_usuario }}</strong></div>
+          {% if acta.materiales %}
+          <div style="margin-top:8px">{% for m in acta.materiales %}<span class="chip">📦{{ m.nombre }} ({{ m.cantidad }})</span>{% endfor %}</div>
+          {% endif %}
+        </div>
+        <div class="btns-acta">
+          {% if acta.estado=='firmado' %}
+          <span class="tag-f">✅ Firmada</span>
+          {% else %}<span class="tag-p">⏳ Pendiente</span>{% endif %}
+          <button class="btn-ver" onclick='abrirModal({{ acta|tojson }})'>Ver</button>
+          {% if acta.estado=='firmado' %}
+          <a class="btn-pdf" href="/descargar_pdf/{{ acta.id }}">⬇️ PDF</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="ameta">
+        <span>📅 {{ acta.fecha_creacion }}</span>
+        {% if acta.fecha_firmado %}<span>✍️ Firmada: {{ acta.fecha_firmado }}</span>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+  </main>
+</div>
+
+<div class="modal-ov" id="mov" onclick="if(event.target===this)cerrar()">
+  <div class="modal">
+    <button class="close-m" onclick="cerrar()">✕</button>
+    <h2 id="mn"></h2>
+    <div class="mf"><label>Asignada a</label><p id="mu"></p></div>
+    <div class="mf"><label>Descripción</label><p id="md"></p></div>
+    <div class="mf" id="mm-w"><label>Materiales</label><div id="mm"></div></div>
+    <div class="mf"><label>Estado</label><p id="me"></p></div>
+    <div class="mf" id="mfw" style="display:none"><label>Firma del trabajador</label><img id="mfi" class="firma-prev" src="" alt="Firma"></div>
+    <div class="mf" id="mfe-w" style="display:none"><label>Fecha firma</label><p id="mfe"></p></div>
+  </div>
+</div>
+<script>
+function abrirModal(a){
+  document.getElementById('mn').textContent=a.nombre;
+  document.getElementById('mu').textContent=a.nombre_usuario;
+  document.getElementById('md').textContent=a.descripcion;
+  document.getElementById('me').innerHTML=a.estado==='firmado'?'<span class="tag-f">✅ Firmada</span>':'<span class="tag-p">⏳ Pendiente</span>';
+  if(a.materiales&&a.materiales.length){
+    document.getElementById('mm-w').style.display='';
+    document.getElementById('mm').innerHTML=a.materiales.map(m=>`<span class="chip">📦${m.nombre} — ${m.cantidad}</span>`).join('');
+  }else{document.getElementById('mm-w').style.display='none';}
+  if(a.firma_imagen){document.getElementById('mfw').style.display='';document.getElementById('mfi').src=a.firma_imagen;}
+  else document.getElementById('mfw').style.display='none';
+  if(a.fecha_firmado){document.getElementById('mfe-w').style.display='';document.getElementById('mfe').textContent=a.fecha_firmado;}
+  else document.getElementById('mfe-w').style.display='none';
+  document.getElementById('mov').classList.add('open');
+}
+function cerrar(){document.getElementById('mov').classList.remove('open');}
+</script>
+</body></html>

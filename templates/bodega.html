@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bodega - Bitwan</title>
+    <link rel="shortcut icon" type="image/png" href="/static/logo.png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bodega.css') }}">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-icon">📦</span>
+            <div>
+                <div class="brand-name">BITWAN</div>
+                <div class="brand-sub">Sistema de inventario</div>
+            </div>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="user-avatar">{{ usuario[0].upper() }}</div>
+            <div class="user-info">
+                <div class="user-name">{{ usuario }}</div>
+                <div class="user-role">Administrador</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/admin" class="nav-link">🏠 Inicio</a>
+            <a href="/bodega" class="nav-link active">📦 Bodega</a>
+            <a href="/actividades" class="nav-link">⚡ Actividades</a>
+            <a href="/admin" class="nav-link">📄 Actas</a>
+        </nav>
+
+        <a href="/logout" class="btn-logout">↩️ Cerrar sesión</a>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main">
+
+        <div class="page-header">
+            <h1>📦 Bodega</h1>
+            <p>Gestiona el inventario de materiales</p>
+        </div>
+
+        <!-- FORMULARIO AGREGAR -->
+        <div class="card">
+            <h2 class="card-title">➕ Agregar Material</h2>
+            <form method="POST" class="form-agregar">
+                <input type="hidden" name="accion" value="agregar">
+                <div class="form-row">
+                    <div class="field">
+                        <label>Nombre del material</label>
+                        <input type="text" name="nombre" placeholder="Ej: Cable UTP Cat6" required>
+                    </div>
+                    <div class="field field-sm">
+                        <label>Cantidad</label>
+                        <input type="number" name="cantidad" placeholder="0" min="1" required>
+                    </div>
+                    <button type="submit" class="btn-add">Agregar</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- TABLA MATERIALES -->
+        <div class="card">
+            <h2 class="card-title">📋 Materiales registrados
+                <span class="badge">{{ materiales|length }}</span>
+            </h2>
+
+            {% if materiales %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Material</th>
+                            <th>Cantidad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for m in materiales %}
+                        <tr>
+                            <td class="td-id">{{ m[0] }}</td>
+                            <td class="td-nombre">{{ m[1] }}</td>
+                            <td class="td-cant">
+                                <!-- Editar cantidad inline -->
+                                <form method="POST" class="form-inline">
+                                    <input type="hidden" name="accion" value="editar">
+                                    <input type="hidden" name="id" value="{{ m[0] }}">
+                                    <input type="number" name="cantidad" value="{{ m[2] }}" min="0" class="input-cant">
+                                    <button type="submit" class="btn-save" title="Guardar">✓</button>
+                                </form>
+                            </td>
+                            <td>
+                                {% if m[2] == 0 %}
+                                    <span class="tag tag-red">Sin stock</span>
+                                {% elif m[2] < 5 %}
+                                    <span class="tag tag-yellow">Stock bajo</span>
+                                {% else %}
+                                    <span class="tag tag-green">Disponible</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form method="POST" class="form-inline"
+                                      onsubmit="return confirm('¿Eliminar {{ m[1] }}?')">
+                                    <input type="hidden" name="accion" value="eliminar">
+                                    <input type="hidden" name="id" value="{{ m[0] }}">
+                                    <button type="submit" class="btn-del" title="Eliminar">🗑️</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty">
+                <p>No hay materiales registrados aún.</p>
+            </div>
+            {% endif %}
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

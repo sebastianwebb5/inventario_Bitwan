@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Firmar Acta - Bitwan</title>
+  <link rel="shortcut icon" type="image/png" href="/static/logo.png">
+  <link rel="stylesheet" href="{{ url_for('static', filename='bodega.css') }}">
+  <style>
+    .acta-box{background:white;border-radius:18px;padding:30px;max-width:640px;margin:0 auto;box-shadow:0 4px 24px rgba(77,108,231,.10)}
+    .hdr{background:linear-gradient(135deg,#4d6ce7,#6d8bf5);border-radius:12px;padding:20px 24px;color:white;margin-bottom:22px}
+    .hdr h2{font-size:19px;margin:0 0 4px}.hdr p{font-size:12px;opacity:.8;margin:0}
+    .fl{margin-bottom:18px}.fl-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}.fl-val{font-size:15px;line-height:1.5}
+    .chip{display:inline-block;background:var(--azul-bg);color:var(--azul);border-radius:20px;padding:4px 12px;font-size:13px;font-weight:600;margin:2px}
+    .div{height:1px;background:var(--gris-borde);margin:18px 0}
+    .canvas-wrap{border:2px dashed var(--gris-borde);border-radius:12px;background:#fafcff;overflow:hidden;cursor:crosshair;position:relative}
+    .canvas-wrap:hover{border-color:var(--azul)}
+    canvas{display:block;touch-action:none}
+    .chint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;color:var(--muted);font-size:14px;opacity:.5}
+    .chint.hidden{opacity:0}
+    .brow{display:flex;gap:10px;margin-top:14px}
+    .btn-cl{background:white;color:var(--muted);border:1.5px solid var(--gris-borde);padding:10px 20px;border-radius:10px;font-size:14px;cursor:pointer;font-family:inherit;transition:.2s}
+    .btn-cl:hover{border-color:var(--danger);color:var(--danger)}
+    .btn-env{flex:1;background:var(--azul);color:white;border:none;padding:13px 24px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s}
+    .btn-env:hover{background:var(--azul-dark)}
+    .btn-env:disabled{opacity:.5;cursor:not-allowed}
+    .firmado-ok{background:#d1fae5;color:#065f46;border-radius:10px;padding:14px 20px;font-weight:700;text-align:center;font-size:15px}
+    .back{display:inline-block;margin-bottom:20px;color:var(--azul);text-decoration:none;font-size:14px;font-weight:600}
+    .back:hover{text-decoration:underline}
+  </style>
+</head>
+<body style="background:var(--gris-bg);padding:32px 16px;min-height:100vh">
+<div style="max-width:640px;margin:0 auto">
+  <a href="/panel" class="back">← Volver al panel</a>
+  <div class="acta-box">
+    <div class="hdr"><h2>📋 {{ acta.nombre }}</h2><p>Acta de actividad — Sistema Bitwan</p></div>
+
+    <div class="fl"><div class="fl-lbl">Asignada a</div><div class="fl-val">👤 {{ acta.nombre_usuario }}</div></div>
+    <div class="fl"><div class="fl-lbl">Descripción</div><div class="fl-val">{{ acta.descripcion }}</div></div>
+
+    {% if acta.materiales %}
+    <div class="fl">
+      <div class="fl-lbl">Materiales asignados</div>
+      <div class="fl-val">
+        {% for m in acta.materiales %}
+        <span class="chip">📦 {{ m.nombre }} — {{ m.cantidad }} unidad{% if m.cantidad!=1 %}es{% endif %}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="fl"><div class="fl-lbl">Fecha de creación</div><div class="fl-val">📅 {{ acta.fecha_creacion }}</div></div>
+    <div class="div"></div>
+
+    {% if acta.estado=='firmado' %}
+    <div class="firmado-ok">✅ Acta firmada el {{ acta.fecha_firmado }}</div>
+    {% else %}
+    <h3 style="font-size:16px;font-weight:700;margin-bottom:4px">✍️ Firma aquí</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Dibuja tu firma con el dedo o el mouse</p>
+    <div class="canvas-wrap">
+      <canvas id="cv" width="576" height="180"></canvas>
+      <div class="chint" id="hint">✏️ Firma aquí</div>
+    </div>
+    <div class="brow">
+      <button class="btn-cl" onclick="limpiar()">🗑️ Limpiar</button>
+      <button class="btn-env" id="benv" onclick="enviar()" disabled>📤 Enviar acta firmada</button>
+    </div>
+    <form id="ff" method="POST" action="/firmar_acta/{{ acta.id }}">
+      <input type="hidden" name="firma" id="fd">
+    </form>
+    {% endif %}
+  </div>
+</div>
+{% if acta.estado!='firmado' %}
+<script>
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d'),hint=document.getElementById('hint'),benv=document.getElementById('benv');
+let drawing=false,marked=false;
+function resize(){
+  const w=cv.parentElement.clientWidth;
+  cv.style.width=w+'px';cv.style.height='180px';
+  cv.width=w*devicePixelRatio;cv.height=180*devicePixelRatio;
+  ctx.scale(devicePixelRatio,devicePixelRatio);
+  ctx.strokeStyle='#1a1f36';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';
+}resize();
+function pos(e){const r=cv.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{x:s.clientX-r.left,y:s.clientY-r.top};}
+cv.addEventListener('mousedown',e=>{e.preventDefault();drawing=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y)});
+cv.addEventListener('mousemove',e=>{e.preventDefault();if(!drawing)return;const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();marked=true;hint.classList.add('hidden');benv.disabled=false});
+cv.addEventListener('mouseup',()=>drawing=false);
+cv.addEventListener('touchstart',e=>{e.preventDefault();drawing=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y)},{passive:false});
+cv.addEventListener('touchmove',e=>{e.preventDefault();if(!drawing)return;const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke();marked=true;hint.classList.add('hidden');benv.disabled=false},{passive:false});
+cv.addEventListener('touchend',()=>drawing=false);
+function limpiar(){ctx.clearRect(0,0,cv.width/devicePixelRatio,cv.height/devicePixelRatio);hint.classList.remove('hidden');marked=false;benv.disabled=true;}
+function enviar(){if(!marked)return;document.getElementById('fd').value=cv.toDataURL('image/png');document.getElementById('ff').submit();}
+</script>
+{% endif %}
+</body></html>
